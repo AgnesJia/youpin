@@ -1,10 +1,10 @@
 // import { combineReducers } from 'redux'
 import { combineReducers } from 'redux-immutable'
 
-import { reducer as cookbook } from 'pages/cookbook'
-import { reducer as menu } from 'pages/menu'
+// import { reducer as cart } from 'pages/cart'
+import { reducer as home } from 'pages/home'
 
 export default combineReducers({
-  cookbook,
-  menu
+  // cart,
+  home
 })

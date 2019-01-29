@@ -51,11 +51,12 @@ const Img = styled.img`
  `
 
 const Kingkong = styled.ul`
+   background-image:url("https://img.youpin.mi-img.com/jianyu/9ed85d11dd3f8d77c339451ecc210d29.jpg@base@tag=imgScale&w=1080&h=246");
+   background-size:cover;
    height:.85rem;
    width:100%;
    display:flex;
    flex-direction:row;
-   background:#fff;
    justify-content: center;
    align-items:center;
 `
@@ -65,9 +66,15 @@ const Li = styled.li`
   flex-direction:column;
   justify-content: center;
   align-items:center;
-  img{
+  .pic{
       width:.45rem;
       height:.45rem;
+  }
+  .pic[lazy=loading] {
+    width:.2rem;height:.2rem;
+  }
+  .pic[lazy=error] {
+    width:.2rem;height:.2rem;
   }
   span{
     font-size:.12rem;
@@ -98,8 +105,14 @@ padding-bottom:.1rem;
     min-width:1.76rem;min-height:1.25rem;margin:0.015rem; display:flex;flex-direction: column;justify-content: center;align-items: center;
     span{font-size:.11rem;color: rgb(153, 153, 153);}
   }
-  img{
+  .pic{
     width:1.09rem;height:.73rem;
+  }
+  .pic[lazy=loading] {
+    width:.4rem;height:.4rem;
+  }
+  .pic[lazy=error] {
+    width:.4rem;height:.4rem;
   }
 }
 .zhongchou{

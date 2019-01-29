@@ -4,10 +4,28 @@ import { TabBar } from 'antd-mobile'
 import tabbar from 'images/tabbar.png'
 
 import {MainContainer} from 'pages/main'
+import {CategoryContainer} from 'pages/category'
 
-
-
+import { connect } from 'react-redux'
+import { UPDATE_CART_NUM } from './actionTypes'
 import { withRouter } from 'react-router-dom'
+
+const mapState = (state) => {
+  return {
+    num: state.getIn(["home",'num'])
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    update (num) {
+      dispatch({
+        type: UPDATE_CART_NUM,
+        num
+      })
+    }
+  }
+}
 
 export class HomeContainer extends Component {
   constructor(props) {
@@ -17,6 +35,22 @@ export class HomeContainer extends Component {
       fullScreen: true,
     }
   }
+  
+  componentDidMount(){
+    if(localStorage["xiaomicart"]){
+       let obj = JSON.parse(localStorage["xiaomicart"])
+      let sum = 0
+      for(let k in obj){
+        sum += obj[k].num
+      }
+      this.props.update(sum)
+    }else{
+      this.props.update(0)
+    }
+   
+    
+  }
+
   render() {
     return (
       <div style={this.state.fullScreen ? { position: 'fixed', height: '100%', width: '100%', top: 0 } : { height: 400 }}>
@@ -78,7 +112,7 @@ export class HomeContainer extends Component {
             }}
             data-seed="logId1"
           >
-            {/* <Menu></Menu> */}
+            <CategoryContainer></CategoryContainer>
           </TabBar.Item>
           <TabBar.Item
             icon={
@@ -105,7 +139,7 @@ export class HomeContainer extends Component {
               this.props.history.push('/home/pinwei')
             }}
           >
-            <div>tab3</div>
+            <div>品味</div>
           </TabBar.Item>
           <TabBar.Item
             icon={
@@ -125,6 +159,8 @@ export class HomeContainer extends Component {
             title="购物车"
             key="cart"
             selected={this.state.selectedTab === 'cart'}
+            // 1111111111111111111111111111111111111111111111111111111111111111 
+            badge={this.props.num}
             onPress={() => {
               this.setState({
                 selectedTab: 'cart',
@@ -159,12 +195,13 @@ export class HomeContainer extends Component {
               this.props.history.push('/home/personal')
             }}
           >
-            <div>tab4</div>
+            <div>个人</div>
           </TabBar.Item>
         </TabBar>
       </div>
     )
   }
+
 }
 
-export default withRouter(HomeContainer)
+export default withRouter(connect(mapState, mapDispatch)(HomeContainer))

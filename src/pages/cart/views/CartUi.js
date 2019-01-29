@@ -1,24 +1,54 @@
 import  React,{ Component } from 'react'
 import GoBack from 'images/std_tittlebar_main_device_back_normal.png'
-import { withRouter } from 'react-router-dom'
+import { withRouter,Link } from 'react-router-dom'
 import check from 'images/std_icon_checkbox_check.png'
 import uncheck from 'images/std_icon_checkbox_uncheck.png'
+import cart_grey from 'images/cart_grey.png'
 import {fromJS} from 'immutable'
 import ChangeNum from "components/common/cart/ChangeNum"
 import { HomeContainer,Header,ZhenXuan,Item,Footer,Quanxuan} from './styledComponents'
 import Checkbox from './Checkbox'
-export default withRouter( class extends Component {
+import { Modal,Toast, Flex } from 'antd-mobile';
+
+// import { connect } from 'react-redux'
+// import { UPDATE_CART_NUM } from 'pages/home/actionTypes'
+
+// const mapState = (state) => {
+//   return {
+//     num: state.getIn(["home",'num'])
+//   }
+// }
+
+// const mapDispatch = (dispatch) => {
+//   return {
+//     update (num) {
+//       dispatch({
+//         type: UPDATE_CART_NUM,
+//         num
+//       })
+//     }
+//   }
+// }
+
+const alert = Modal.alert;
+
+
+class CartUi extends Component {
     constructor (props) {
-      super(props)
-      this.state = {
-        chooseList : localStorage["xiaomicart"]?Object.keys(JSON.parse(localStorage["xiaomicart"])):[],
-        chooseCheck : 0,
-        Allchoose : false,
-        reverseCheck : false,
-        isAuto : false,
-        totle:0
-    }
-      this.goBack = this.goBack.bind(this)
+        super(props)
+        this.state = {
+            chooseList : localStorage["xiaomicart"]?Object.keys(JSON.parse(localStorage["xiaomicart"])):[],
+            chooseCheck : 0,
+            Allchoose : false,
+            reverseCheck : false,
+            isAuto : false,
+            totle:0,
+            bianji:false
+        }
+        this.goBack = this.goBack.bind(this)
+        this.changeBianji = this.changeBianji.bind(this)
+        this.delete = this.delete.bind(this)
+        this.sureDelete = this.sureDelete.bind(this)
     }
     Allchoose(e){
         let num = 0;
@@ -116,19 +146,27 @@ export default withRouter( class extends Component {
                 <Header>
                     <img src={GoBack} alt="" onClick={this.goBack}></img>
                     购物车
-                    <span style={{marginRight:".1rem",fontSize:".12rem",color:"rgb(51,51,51)"}}>编辑</span>
+                    {this.state.bianji?<span onClick={this.changeBianji} style={{marginRight:".1rem",fontSize:".12rem",color:"rgb(191, 17, 17)"}}>完成</span>:
+                    <span onClick={this.changeBianji} style={{marginRight:".1rem",fontSize:".12rem",color:"rgb(51,51,51)"}}>编辑</span>}
                 </Header>
                 <div id="main-scroll">
                     {localStorage["xiaomicart"]?
                         (<ZhenXuan>
-                            <input id="quan" type="checkbox" onClick = {(e)=>{this.Allchoose(e)}} checked = {this.state.Allchoose} style={{background:"url("+{check}+")",width:".18rem",height:".18rem",marginRight:".07rem"}}/>
+                            <input id="quan" type="checkbox" onChange={() => {}} onClick = {(e)=>{this.Allchoose(e)}} checked = {this.state.Allchoose} style={{background:"url("+{check}+")",width:".18rem",height:".18rem",marginRight:".07rem"}}/>
                             <label htmlFor="quan">
                                 <img src={this.state.Allchoose?check:uncheck} alt="" style={{width:".18rem",height:".18rem",marginRight:".07rem"}}/>
                             </label>
                             <div className="xuan">有品甄选</div>
-                            <span>满99.00元免运费</span>
+                            {this.state.totle<99?<span>满99.00元免运费</span>:<span>已免运费</span>}
+                            
                         </ZhenXuan>)
-                        :(<div>wu</div>)
+                        :(<div style={{display:"flex",justifyContent:"center",alignItems:"center",marginTop:'1rem'}}>
+                            <img src={cart_grey} alt="" style={{width:'.91rem',height:".85rem"}}/>
+                            <div style={{display:"flex",flexDirection:"column",marginLeft:'.2rem'}}>
+                                <p style={{color:"rgb(152, 131, 120)"}}>购物车还没有商品哦</p>
+                                <Link to="/home" style={{display:"block",width:".77rem",height:".23rem",background:"rgb(226, 115, 104)",textAlign:"center",lineHeight:".23rem",color:"#fff",marginTop:".12rem"}}>去逛逛</Link>
+                            </div>                           
+                        </div>)
                     }
                     {/* {Object.keys(JSON.parse(localStorage["xiaomicart"])).map((key,i)=>{ */}
                     {/* 渲染购物车列表onClick = {(e)=>{this.Reversechoose(e)}} checked = {this.state.reverseCheck} */}
@@ -155,15 +193,21 @@ export default withRouter( class extends Component {
                 {localStorage["xiaomicart"]?
                     <Footer>
                         <Quanxuan>
-                            <input id="quan" type="checkbox" onClick = {(e)=>{this.Allchoose(e)}} checked = {this.state.Allchoose} style={{background:"url("+{check}+")",width:".18rem",height:".18rem",marginRight:".07rem"}}/>
+                            <input id="quan" type="checkbox" onChange={() => {}} onClick = {(e)=>{this.Allchoose(e)}} checked = {this.state.Allchoose} style={{background:"url("+{check}+")",width:".18rem",height:".18rem",marginRight:".07rem"}}/>
                             <label htmlFor="quan">
                                 <img src={this.state.Allchoose?check:uncheck} alt="" style={{width:".18rem",height:".18rem",marginRight:".07rem"}}/>
                             </label>
                             <div className="xuan">全选</div>
+                            {this.state.bianji?
+                            <div className="totle">
+                                <div className="goto" onClick={this.sureDelete}>删除所选</div>
+                            </div>
+                            :
                             <div className="totle">
                                 <div>合计：<span className="red">￥{this.state.totle.toFixed(2)}</span></div>
                                 <div className="goto">去结算</div>
                             </div>
+                            }
                             
                         </Quanxuan>
                     </Footer>
@@ -177,4 +221,52 @@ export default withRouter( class extends Component {
     goBack(){
         this.props.history.goBack()
     }
-})
+    changeBianji(){
+        this.setState({
+            bianji:!this.state.bianji
+        })
+    }
+
+    sureDelete(){
+        let obj = JSON.parse(localStorage["xiaomicart"])
+        let bStop = false
+        for(var k in obj){
+            if(obj[k].checked === true){
+                bStop = true
+                break
+            }
+        }
+        if(bStop){
+            alert('删除信息','确认要从购物车删除所选商品？', [
+                { text: '取消', onPress: () => console.log('cancel') },
+                { text: '确认', onPress: () => this.delete() },
+            ])
+        }else{
+            this.showToast()
+        }
+        
+    }
+    delete(){
+        let obj=JSON.parse(localStorage["xiaomicart"])
+        for(var k in obj){
+            if(obj[k].checked===true){
+                delete obj[k]
+            }
+        }
+        
+        localStorage["xiaomicart"]=JSON.stringify(obj)
+        this.setState({
+            chooseList : localStorage["xiaomicart"]?Object.keys(JSON.parse(localStorage["xiaomicart"])):[],
+            totle:0
+        })
+
+        if(localStorage["xiaomicart"]==="{}"){
+            localStorage.removeItem("xiaomicart")
+        }
+    }
+    showToast() {
+        Toast.info('请选择你要删除的商品~', 1.5);
+      }
+}
+
+export default withRouter(CartUi)

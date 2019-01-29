@@ -5,6 +5,35 @@ import border from 'components/styled/border.js'
 // const SearchContainer = styled.div `
 //   padding: .12rem .15rem;
 // `
+const HomeContainer = styled.div `
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow:hidden;
+  #main-scroll {
+    flex: 1;
+    overflow-y: scroll;
+  }
+`
+const Header = border({
+component:styled.header `
+padding:0 .12rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: .45rem;
+  background: #fff;
+  text-align: center;
+  line-height: .44rem;
+  color: #000;
+  font-size: .16rem;
+  font-weight:100;
+  justify-content: space-between;
+  img{
+      width:.39rem;
+  }
+`,width:'0 0 1px 0'
+})
 
 const SearchContent = border({
   component: styled.div `
@@ -20,9 +49,11 @@ const SearchContent = border({
       margin-right: .06rem;
       margin-left: .06rem
     }
-    span {
+    input {
       font-size: .12rem;
       color: #979797;
+      border:none;
+      background:transparent
     }
   `,
   color: '#999',
@@ -39,7 +70,9 @@ text-align:left;     color: rgb(102, 102, 102);
 
 `
 
+
+
 export {
   // SearchContainer,
-  SearchContent,ChangeNumContainer
+  SearchContent,ChangeNumContainer,HomeContainer,Header
 }

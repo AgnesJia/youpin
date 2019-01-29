@@ -6,6 +6,7 @@
     "antd-mobile": "^2.2.6",
     "better-scroll": "^1.13.2",
     "immutable": "^4.0.0-rc.12",
+    "r-img-lazyload": "^1.1.0",
     "random-string": "^0.2.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",

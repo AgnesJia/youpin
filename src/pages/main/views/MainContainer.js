@@ -42,7 +42,7 @@ class MainContainer extends Component {
           banner:result.data.homepage.floors[0].data.items,
           kingkong:result.data.homepage.floors[1].data.items,
           floors:result.data.homepage.floors,
-          tuijian:result.data.homepage.floors[2].data
+          tuijian:result.data.homepage.floors[4].data
         })
         //  console.log('this.state.floors :',this.state.banner)
       })

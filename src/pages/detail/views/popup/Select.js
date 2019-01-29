@@ -1,7 +1,28 @@
-import { Modal, Button, WhiteSpace, WingBlank } from 'antd-mobile';
+import { Modal, Button, WhiteSpace, WingBlank,Toast } from 'antd-mobile';
 import React from 'react'
 import Right from 'images/right.png'
 import {SelectPopup} from '../../views/styledComponents'
+
+import { connect } from 'react-redux'
+import { UPDATE_CART_NUM } from 'pages/home/actionTypes'
+
+const mapState = (state) => {
+  return {
+    num: state.getIn(["home",'num'])
+  }
+}
+
+// const mapDispatch = (dispatch) => {
+//   return {
+//     update (num) {
+//       dispatch({
+//         type: UPDATE_CART_NUM,
+//         num
+//       })
+//     }
+//   }
+// }
+
 function closest(el, selector) {
   const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
   while (el) {
@@ -113,7 +134,7 @@ class Select extends React.Component {
         })
       }
       else{
-          console.log('0 :',0)
+          this.showToast()
       }
       
   }
@@ -131,26 +152,47 @@ class Select extends React.Component {
           if(key===name){
             obj[name].num+=number;
             localStorage["xiaomicart"]=JSON.stringify(obj)
-            console.log('local :',localStorage["xiaomicart"])
+            this.showToast2()
+            this.props.addNum(number)
             return
           }    
         }
         bStop=false;
       }else{
         let obj = {}
-        obj[name]={img:img,price:price,num:number,checked:true}
+        obj[name]={img:img,price:price,num:number,checked:false}
         localStorage["xiaomicart"]=JSON.stringify(obj)
-        console.log('localStorage :',JSON.parse(localStorage["xiaomicart"]))
+        this.showToast2()
+        this.props.addNum(number)
       }
        
       if(bStop===false){
         let obj = JSON.parse(localStorage["xiaomicart"])
-        obj[name]={img:img,price:price,num:number,checked:true}
+        obj[name]={img:img,price:price,num:number,checked:false}
         localStorage["xiaomicart"]=JSON.stringify(obj)
-        console.log('local :',localStorage["xiaomicart"])
+        this.showToast2()
+        this.props.addNum(number)
       }
+
+      // if(localStorage["xiaomicart"]){
+      //   let obj = JSON.parse(localStorage["xiaomicart"])
+      //   let sum = 0
+      //   for(let k in obj){
+      //     sum += obj[k].num
+      //   }
+      //   this.props.update(sum)
+      // }
       
+  }
+  showToast() {
+    Toast.info('商品数量已达到最小值了哦~', 1.5);
+  }
+
+  showToast2(){
+    Toast.info('加入购物车成功~', 1.5);
+    
   }
 }
 
-export default Select
+export default (Select)
+// connect(mapState)

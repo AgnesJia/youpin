@@ -1,0 +1,118 @@
+{
+  "code": 0,
+  "message": "ok",
+  "lid": "1544015966.564181308",
+  "tid": "10.142.34.7-111787-1544015966563-59005",
+  "result": {
+    "hotWords": {
+      "code": 0,
+      "message": "",
+      "description": "",
+      "data": {
+        "hot_item": [
+          {
+            "text": "车",
+            "color": "#F1F9EA",
+            "url": "",
+            "iid": "车_1_0_1_102067"
+          },
+          {
+            "text": "杯子",
+            "color": "#FFF9FA",
+            "url": "",
+            "iid": "杯子_1_0_2_100496"
+          },
+          {
+            "text": "优惠券",
+            "color": "#FBEEFB",
+            "url": "https://home.mi.com/app/shop/content?id=ueee31039acf6b847",
+            "iid": "优惠券_0_1_3_0"
+          },
+          {
+            "text": "加湿器",
+            "color": "#ECF8FA",
+            "url": "",
+            "iid": "加湿器_1_0_4_102193"
+          },
+          {
+            "text": "包",
+            "color": "#FEF4FB",
+            "url": "",
+            "iid": "包_1_0_5_102225"
+          },
+          {
+            "text": "灯",
+            "color": "#EDEBFB",
+            "url": "",
+            "iid": "灯_1_0_6_100882"
+          },
+          {
+            "text": "锁",
+            "color": "#FFE0D9",
+            "url": "",
+            "iid": "锁_1_0_7_0"
+          },
+          {
+            "text": "充电宝",
+            "color": "#FBF5EB",
+            "url": "",
+            "iid": "充电宝_1_0_8_404"
+          },
+          {
+            "text": "耳机",
+            "color": "#FFF9FA",
+            "url": "",
+            "iid": "耳机_1_0_9_0"
+          },
+          {
+            "text": "床",
+            "color": "#F8F1D1",
+            "url": "",
+            "iid": "床_1_0_10_103693"
+          }
+        ],
+        "filter": [
+          {
+            "keyword": "拼团",
+            "url": "https://home.mi.com/app/shop/content?id=o06985039311ed612",
+            "iid": ""
+          },
+          {
+            "keyword": "优惠券",
+            "url": "https://home.mi.com/app/shop/content?id=nd31510393cf6f8b1&needlogin=1",
+            "iid": ""
+          },
+          {
+            "keyword": "@邀请码",
+            "url": "https://home.mi.com/shop/activity?cid=nf779d039d30f3351",
+            "iid": ""
+          },
+          {
+            "keyword": "市集",
+            "url": "https://m.youpin.mi.com/w/wactivity?_rt=weex&pageid=68",
+            "iid": ""
+          },
+          {
+            "keyword": "有品市集",
+            "url": "https://m.youpin.mi.com/w/wactivity?_rt=weex&pageid=68",
+            "iid": ""
+          }
+        ]
+      }
+    },
+    "inputTip": {
+      "code": 0,
+      "message": "",
+      "description": "",
+      "data": [
+        {
+          "text": "预售来袭 单品最高省1200",
+          "color": "#cccccc",
+          "url": "https://home.mi.com/app/shop/content?id=pa9ef103984ed72f2",
+          "iid": ""
+        }
+      ]
+    }
+  },
+  "timestamp": 1544015966
+}

@@ -10,8 +10,33 @@ import Select  from './popup/Select'
 import Description from "./popup/Description";
 import Activity from "./popup/Activity"
 import { HomeContainer,SwiperContainer,Header,GoodDetailTitle,SelectContainer,Footer,DescriptionContainer } from './styledComponents'
+import { connect } from 'react-redux'
+import { UPDATE_CART_NUM,ADD_CART_NUM } from 'pages/home/actionTypes'
 
-export default withRouter( class extends Component {
+const mapState = (state) => {
+  return {
+    num: state.getIn(["home",'num'])
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    update (num) {
+      dispatch({
+        type: UPDATE_CART_NUM,
+        num
+      })
+    },
+    addNum(num){
+        dispatch({
+            type:ADD_CART_NUM,
+            num
+        })
+    }
+  }
+}
+
+class DetailUi extends Component {
     constructor (props) {
       super(props)
       this.state={
@@ -60,7 +85,7 @@ export default withRouter( class extends Component {
                 </DescriptionContainer>:""}
                 
                 <SelectContainer>
-                    <Select type={this.state.goodType} tags={this.state.goodTags} ref={el => this.getChildMethod=el}></Select>
+                    <Select type={this.state.goodType} tags={this.state.goodTags} ref={el => this.getChildMethod=el} addNum={(num)=>{this.props.addNum(num)}}></Select>
                 </SelectContainer>
                 <DescriptionContainer>
                     <Description brand={this.state.brand} service={this.state.service}></Description>
@@ -75,7 +100,8 @@ export default withRouter( class extends Component {
                 <div className="left" onClick={this.gotoCart}>
                     <img src={cart} alt=""/>
                     <p>购物车</p>
-                    {this.state.cartNum!==0?<span className="num">{this.state.cartNum}</span>:""}
+                    <span className="num">{this.props.num}</span>
+                    {/* {this.state.cartNum!==0?<span className="num">{this.state.cartNum}</span>:""} */}
                     
                 </div>
                 <div className="liji btn" onClick={this.getChild}>立即购买</div>
@@ -99,7 +125,7 @@ export default withRouter( class extends Component {
         })
         .then(response => response.json())
         .then(result => {
-            console.log(result)
+            // console.log(result)
           this.setState({
             data: result,
             imgs:result.result.detail.data.good.album,
@@ -110,8 +136,19 @@ export default withRouter( class extends Component {
             service:result.result.detail.data.service,
             activity:result.result.detail.data.good.copywriting?result.result.detail.data.good.copywriting[0]:{}
           })
-          console.log(result)
-        })        
+        //   console.log(result)
+        })  
+        
+        if(localStorage["xiaomicart"]){
+            let obj = JSON.parse(localStorage["xiaomicart"])
+           let sum = 0
+           for(let k in obj){
+             sum += obj[k].num
+           }
+           this.props.update(sum)
+         }else{
+           this.props.update(0)
+         }
     }
     goBack(){
         this.props.history.goBack()
@@ -124,5 +161,7 @@ export default withRouter( class extends Component {
         this.props.history.push("/cart")
     }
 
-})
+}
+
+export default withRouter(connect(mapState,mapDispatch)(DetailUi))
 
